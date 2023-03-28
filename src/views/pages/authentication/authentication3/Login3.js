@@ -9,6 +9,7 @@ import AuthWrapper1 from '../AuthWrapper1';
 import AuthCardWrapper from '../AuthCardWrapper';
 import AuthLogin from '../auth-forms/AuthLogin';
 import Logo from 'ui-component/Logo';
+import AuthLoginSeller from '../auth-forms/AuthLoginSeller';
 
 // assets
 
@@ -16,13 +17,17 @@ import Logo from 'ui-component/Logo';
 
 const Login = () => {
     const theme = useTheme();
-    const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
+    const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));   
+    const url = window.location.pathname
+
+    const userType = localStorage.getItem('user');
 
     if (localStorage.getItem('access_token') !== null) {
-        return <Navigate to="/dashboard" />;
+        return <Navigate to={`/${userType}/dashboard`} />;
       }
 
-
+   
+      
 
     return (
         <AuthWrapper1>
@@ -65,12 +70,16 @@ const Login = () => {
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={12}>
+                                        {url === '/login/seller' ? 
+                                        <AuthLoginSeller/> :
                                         <AuthLogin />
+                                        }
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Divider />
                                     </Grid>
                                     <Grid item xs={12}>
+                                        {url === '/login/seller' && 
                                         <Grid item container direction="column" alignItems="center" xs={12}>
                                             <Typography
                                                 component={Link}
@@ -80,7 +89,7 @@ const Login = () => {
                                             >
                                                 Don&apos;t have an account?
                                             </Typography>
-                                        </Grid>
+                                        </Grid>}
                                     </Grid>
                                 </Grid>
                             </AuthCardWrapper>

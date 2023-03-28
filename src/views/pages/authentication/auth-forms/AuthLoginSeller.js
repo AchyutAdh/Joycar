@@ -28,21 +28,18 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import Google from 'assets/images/icons/social-google.svg';
+
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
-const AuthLogin = ({ ...others }) => {
+const AuthLoginSeller = ({ ...others }) => {
     const theme = useTheme();
     const navigate = useNavigate();
 
-    const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-    const customization = useSelector((state) => state.customization);
+   
     const [checked, setChecked] = useState(false);
 
-    const googleHandler = async () => {
-        console.error('Login');
-    };
+   
 
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => {
@@ -88,7 +85,7 @@ const AuthLogin = ({ ...others }) => {
 
           if(response.ok) {
             localStorage.setItem('access_token', token);
-            localStorage.setItem('user', 'buyer')
+            localStorage.setItem('user', 'seller')
           }
           
       
@@ -96,8 +93,7 @@ const AuthLogin = ({ ...others }) => {
             throw new Error('Failed to create user');
           }
 
-          
-          navigate('/buyer/dashboard');
+          navigate('/seller/dashboard');
           window.location.reload();
           setLoading(false);
           // Handle successful user creation
@@ -202,4 +198,4 @@ const AuthLogin = ({ ...others }) => {
     );
 };
 
-export default AuthLogin;
+export default AuthLoginSeller;

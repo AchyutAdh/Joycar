@@ -6,7 +6,7 @@ import "../../styles/header.css";
 
 const navLinks = [
   {
-    path: "/home",
+    path: "/",
     display: "Home",
   },
   {
@@ -32,6 +32,8 @@ const Header = () => {
   const menuRef = useRef(null);
 
   const access_token = localStorage.getItem('access_token');
+  const userType = localStorage.getItem('user');
+  console.log(userType)
 
 
   // const toggleMenu = () => menuRef.current.classList.toggle("menu__active"); //change toogle button
@@ -79,7 +81,7 @@ const Header = () => {
                 </Link>
                 </>
                 :
-                <Link to="/dashboard" className=" d-flex align-items-center gap-1">
+                <Link to={`/${userType}/dashboard`} className=" d-flex align-items-center gap-1">
                   <i class="ri:dashboard-fill"></i> Dashboard
               </Link>
               }

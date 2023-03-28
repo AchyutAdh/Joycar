@@ -2,7 +2,7 @@
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
-const dashboard = {
+const dashboardbuyer = {
     id: 'dashboard',
     title: 'General',
     type: 'group',
@@ -11,31 +11,31 @@ const dashboard = {
             id: '1',
             title: 'Dashboard',
             type: 'item',
-            url: '/seller/dashboard',
+            url: '/buyer/dashboard',
             breadcrumbs: false
-        }, 
+        },
         {
             id: '2',
-            title: 'Evaluate',
+            title: 'Live Auction',
             type: 'item',
-            url: '/seller/evaluate',
+            url: '/buyer/liveauction',
             breadcrumbs: false
         },
         {
             id: '3',
-            title: 'Car List',
+            title: 'My Auction',
             type: 'item',
-            url: '/seller/carlist',
+            url: '/buyer/myauction',
             breadcrumbs: false
         },
         {
             id: '4',
             title: 'Appointments',
             type: 'item',
-            url: '/seller/appointments',
+            url: '/buyer/appointments',
             breadcrumbs: false
-        }
+        },
     ]
 };
 
-export default dashboard;
+export default dashboardbuyer;

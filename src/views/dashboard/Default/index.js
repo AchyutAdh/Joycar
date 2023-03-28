@@ -22,6 +22,13 @@ const Dashboard = () => {
         return <Navigate to="/login" />;
       }
 
+      const userType = localStorage.getItem('user');
+
+      if (userType !== 'seller') {
+          return <Navigate to={`/buyer/dashboard`} />;
+        }
+
+
     return (
         <Grid container spacing={gridSpacing}>
             <Grid item xs={12}>

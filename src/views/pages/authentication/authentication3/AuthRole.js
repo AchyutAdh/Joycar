@@ -1,30 +1,30 @@
-import { Link, Navigate } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
+import { Button, Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
 import AuthWrapper1 from '../AuthWrapper1';
 import AuthCardWrapper from '../AuthCardWrapper';
 import Logo from 'ui-component/Logo';
-import AuthRegister from '../auth-forms/AuthRegister';
-
 
 // assets
 
-// ===============================|| AUTH3 - REGISTER ||=============================== //
+// ================================|| AUTH3 - LOGIN ||================================ //
 
-const Register = () => {
+const AuthRole = () => {
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
- 
+    
     const userType = localStorage.getItem('user');
 
     if (localStorage.getItem('access_token') !== null) {
         return <Navigate to={`/${userType}/dashboard`} />;
       }
+
+
 
 
     return (
@@ -36,9 +36,9 @@ const Register = () => {
                             <AuthCardWrapper>
                                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                                     <Grid item sx={{ mb: 3 }}>
-                                        <Link to="/">
+                                        <RouterLink to="/">
                                             <Logo />
-                                        </Link>
+                                        </RouterLink>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Grid
@@ -54,45 +54,50 @@ const Register = () => {
                                                         gutterBottom
                                                         variant={matchDownSM ? 'h3' : 'h2'}
                                                     >
-                                                        Sign up
+                                                        Hi, Welcome
                                                     </Typography>
                                                     <Typography
                                                         variant="caption"
                                                         fontSize="16px"
                                                         textAlign={matchDownSM ? 'center' : 'inherit'}
                                                     >
-                                                        Enter your credentials to continue
+                                                        Are you a buyer or a seller?
                                                     </Typography>
                                                 </Stack>
                                             </Grid>
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <AuthRegister />
+                                        <Button component={RouterLink} to="/login/buyer" style={{textDecoration: 'none', color: 'white'}} variant='contained' size='large' fullWidth>Buyer</Button>
                                     </Grid>
+
+                                    <Grid item xs={12}>
+                                        <Button component={RouterLink} to="/login/seller" style={{textDecoration: 'none', color: 'white'}} variant='contained' size='large' fullWidth>Seller</Button>
+                                    </Grid>
+
                                     <Grid item xs={12}>
                                         <Divider />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    {/* <Grid item xs={12}>
                                         <Grid item container direction="column" alignItems="center" xs={12}>
                                             <Typography
-                                                component={Link}
-                                                to="/login/"
+                                                component={RouterLink}
+                                                to="/register"
                                                 variant="subtitle1"
                                                 sx={{ textDecoration: 'none' }}
                                             >
-                                                Already have an account?
+                                                Don&apos;t have an account?
                                             </Typography>
                                         </Grid>
-                                    </Grid>
+                                    </Grid> */}
                                 </Grid>
                             </AuthCardWrapper>
                         </Grid>
                     </Grid>
-                </Grid>
+                </Grid>  
             </Grid>
         </AuthWrapper1>
     );
 };
 
-export default Register;
+export default AuthRole;
