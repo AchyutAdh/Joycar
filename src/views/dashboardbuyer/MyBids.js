@@ -2,26 +2,56 @@ import { useEffect, useState } from 'react';
 import { Navigate, Link as RouterLink } from 'react-router-dom';
 
 // material-ui
-import { Card, Typography, Table, Divider, TableBody, TableContainer, TableRow, TableCell, TableHead, Box, Tooltip, Fab  } from '@mui/material';
+import { Card, Typography, Table,  TableBody, TableContainer, TableRow, TableCell, TableHead, Box, Tooltip, Fab, Button  } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 // project imports
 import { gridSpacing } from 'store/constant';
 import MainCard from 'ui-component/cards/MainCard';
 
-// ==============================|| DEFAULT ListCar ||============================== //
+// ==============================|| DEFAULT MyBids ||============================== //
 
-const ListCar = () => {
+const MyBids = () => {
    
 
     const token = localStorage.getItem('access_token')
 
 
     const [data, setData] = useState(null);
-    const [carList, setCarList] = useState(null);
+    const [bidList, setBidList] = useState(null);
 
 
-    function filterCarsByID(CarList, ID) {
+    function filterUsersByID(CarList, ID) {
         return CarList.filter(car => car.user === ID);
+      }
+
+    
+      function getHighestAuctions(auctions) {
+        if (!auctions || auctions.length === 0) {
+          return null;
+        }
+      
+        const auctionIds = [...new Set(auctions.map(auction => auction.auction))];
+        const highestAuctions = [];
+      
+        for (let i = 0; i < auctionIds.length; i++) {
+          const filteredAuctions = auctions.filter(auction => auction.auction === auctionIds[i]);
+      
+          if (filteredAuctions.length === 0) {
+            continue;
+          }
+      
+          let highestAuction = filteredAuctions[0];
+      
+          for (let j = 1; j < filteredAuctions.length; j++) {
+            if (parseFloat(filteredAuctions[j].price) > parseFloat(highestAuction.price)) {
+              highestAuction = filteredAuctions[j];
+            }
+          }
+      
+          highestAuctions.push(highestAuction);
+        }
+      
+        return highestAuctions;
       }
 
 
@@ -37,19 +67,22 @@ const ListCar = () => {
       }
 
 
-      async function fetchCarList() {
-        const response = await fetch('http://127.0.0.1:8000/cars/');
+      async function fetchBidList() {
+        const response = await fetch('http://127.0.0.1:8000/bids/');
         const json = await response.json();
-        const filteredCarList = filterCarsByID(json, data.id);
-        setCarList(filteredCarList);
+        const filteredCarList = filterUsersByID(json, data.id);
+        const highestAuctions = getHighestAuctions(filteredCarList);
+        setBidList(highestAuctions);
       }
+
+     
     
       useEffect(() => {
         fetchData();
       }, []);
 
-      if (carList === null) {
-        fetchCarList();
+      if (bidList === null) {
+        fetchBidList();
       }
 
 
@@ -59,14 +92,16 @@ const ListCar = () => {
 
       const userType = localStorage.getItem('user');
      
-      if (userType !== 'seller') {
-          return <Navigate to={`/buyer/dashboard`} />;
+      if (userType !== 'buyer') {
+          return <Navigate to={`/seller/dashboard`} />;
         }
 
 
+        console.log(bidList)
+
 
     return (
-        <MainCard title="Listed Cars">
+        <MainCard title="My Bids">
 
             <TableContainer>
            
@@ -79,15 +114,11 @@ const ListCar = () => {
                        S.N
                     </TableCell>
                     <TableCell align="center">
-                       Name
+                       Auction ID
                     </TableCell>
 
                     <TableCell align="center">
-                       Model
-                    </TableCell>
-
-                    <TableCell align="center">
-                       Year
+                       Car Name
                     </TableCell>
 
                     <TableCell align="center">
@@ -95,7 +126,11 @@ const ListCar = () => {
                     </TableCell>
 
                     <TableCell align="center">
-                      Status
+                      Bid Date
+                    </TableCell>
+
+                    <TableCell align="center">
+                      Actions
                     </TableCell>
                  
 
@@ -105,9 +140,9 @@ const ListCar = () => {
 
                       <TableBody>
 
-                    {carList && carList !==null ? <>
+                    {bidList && bidList !== null ? <>
 
-                        {carList && carList.map((item,index) => (
+                        {bidList && bidList.map((item, index) => (
                         <TableRow hover align="center" key={item.id}>
 
                             <TableCell align="center">
@@ -120,20 +155,15 @@ const ListCar = () => {
                             <TableCell align="center">
                               
                             <Typography>
-                               {item.name}
+                               {item.auction}
                             </Typography>
                             </TableCell>
 
                             <TableCell align="center">
-                                <Typography>
-                                 {item.model}
-                                </Typography>
-                            </TableCell>
-
-                            <TableCell align="center">
-                                <Typography >
-                                  {item.year}
-                                </Typography>
+                              
+                            <Typography>
+                               <span style={{textTransform: 'capitalize'}}>{item.car_name}</span>
+                            </Typography>
                             </TableCell>
 
                             <TableCell align="center">
@@ -141,9 +171,15 @@ const ListCar = () => {
                             </TableCell>
 
                             <TableCell align="center">
-                              <span style={{textTransform: 'capitalize'}}>{item.status}</span>
+                              {item.created_at.split('T')[0]}
                             </TableCell>
     
+
+                            <TableCell align="center">
+                              <Button component={RouterLink} variant='outlined' to={`/buyer/liveauction/${item.auction}`}>View</Button>
+                            </TableCell>
+
+
                         </TableRow>
                         ))}
                         </>
@@ -168,4 +204,4 @@ const ListCar = () => {
     );
 };
 
-export default ListCar;
+export default MyBids;

@@ -78,7 +78,7 @@ export default function ListCarForm() {
 
         try {
     
-              const response = await fetch('http://127.0.0.1:8000/api/cars/create/', {
+              const response = await fetch('http://127.0.0.1:8000/cars/create/', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',

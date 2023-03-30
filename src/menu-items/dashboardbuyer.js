@@ -23,9 +23,9 @@ const dashboardbuyer = {
         },
         {
             id: '3',
-            title: 'My Auction',
+            title: 'My Bids',
             type: 'item',
-            url: '/buyer/myauction',
+            url: '/buyer/mybids',
             breadcrumbs: false
         },
         {
