@@ -34,17 +34,6 @@ const AboutSection = ({ aboutClass }) => {
                 </p>
               </div>
 
-              <div className="about__section-item d-flex align-items-center">
-                <p className="section__description d-flex align-items-center gap-2">
-                  <i class="ri-checkbox-circle-line"></i> Sell using AI-powered valuation
-                  amet.
-                </p>
-
-                <p className="section__description d-flex align-items-center gap-2">
-                  <i class="ri-checkbox-circle-line"></i> Hassle-free car selling
-                  amet.
-                </p>
-              </div>
             </div>
           </Col>
 
