@@ -30,6 +30,7 @@ import { IconLogout, IconSettings } from '@tabler/icons';
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
+    const userType = localStorage.getItem('user');
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
     const navigate = useNavigate();
@@ -165,7 +166,7 @@ const ProfileSection = () => {
                                                 <ListItemButton
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     selected={selectedIndex === 0}
-                                                    onClick={(event) => handleListItemClick(event, 0, '/user/account-profile/profile1')}
+                                                    onClick={(event) => handleListItemClick(event, 0, `/${userType}/account`)}
                                                 >
                                                     <ListItemIcon>
                                                         <IconSettings stroke={1.5} size="1.3rem" />

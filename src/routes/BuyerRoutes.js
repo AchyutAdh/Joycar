@@ -6,6 +6,7 @@ import Loadable from 'ui-component/Loadable';
 import LiveAuction from 'views/dashboardbuyer/LiveAuction';
 import LiveAuctionDetails from 'views/dashboardbuyer/LiveAuctionDetails';
 import MyBids from 'views/dashboardbuyer/MyBids';
+import AccountSettings from 'views/AccountSettings';
 
 
 // dashboard routing
@@ -31,6 +32,10 @@ const BuyerRoutes = {
         {
             path: 'mybids',
             element: <MyBids />
+        },
+        {
+            path: 'account',
+            element: <AccountSettings />
         }
     ]
 };

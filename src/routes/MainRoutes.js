@@ -5,6 +5,7 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import ListCar from 'views/dashboard/ListCar';
 import ListForm from 'views/dashboard/ListForm';
+import AccountSettings from 'views/AccountSettings';
 
 
 // dashboard routing
@@ -26,6 +27,10 @@ const MainRoutes = {
         {
             path: 'carlist/create',
             element: <ListForm />
+        },
+        {
+            path: 'account',
+            element: <AccountSettings />
         }
     ]
 };

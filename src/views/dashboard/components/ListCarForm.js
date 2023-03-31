@@ -1,18 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 // mui
-import { Card, Grid, Typography, TextField, Avatar, Button, Stack, CardMedia, CardContent, Box, OutlinedInput, InputLabel, MenuItem, FormControl, Select, Chip, 
-  TableRow, TableCell, TableHead, TableBody, Table, TableContainer, } from '@mui/material';
-import Tooltip from '@mui/material/Tooltip';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
-import CircularProgress from '@mui/material/CircularProgress';
+import { Card, Grid, TextField, Button, Stack, CardMedia, CardContent } from '@mui/material';
 
 
 
@@ -25,14 +14,14 @@ export default function ListCarForm() {
 
     const navigate = useNavigate();
 
-    const [loading, setLoading] = useState(false);
+    const [, setLoading] = useState(false);
     const [data, setData] = useState(null);
     const [formData, setFormData] = useState({name: '', model: '', year: '', price: '', description: ''});
 
 
      //------------------content image-------------------------
      const [imgPreview, setImgPreview] = useState(null);
-     const [imgUrl, setImgUrl] = useState(null);
+     const [, setImgUrl] = useState(null);
      //---------------------------------------------------------
 
      //Converting data URL (base64)
