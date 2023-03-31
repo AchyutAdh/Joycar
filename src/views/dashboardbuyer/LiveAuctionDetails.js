@@ -83,7 +83,7 @@ const LiveAuctionDetails = () => {
         <Grid container spacing={3} sx={{mt: 2}}>
             <Grid item xs={12} md={4}>
                 <Stack spacing={3}>
-                 <DetailsImage data={data && data}  bids={bids && bids}/>
+                 <DetailsImage dataImg={data && data}  bids={bids && bids}/>
                 </Stack>
             </Grid>
 

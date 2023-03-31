@@ -13,6 +13,7 @@ import Image from '../../components/Image';
 
 export default function LiveAuctionCard({ data }) {
 
+  console.log(data)
  
  
   return (
@@ -26,7 +27,7 @@ export default function LiveAuctionCard({ data }) {
     <RouterLink to={`/buyer/liveauction/${data.id}`} color="inherit" style={{textDecoration: 'none', textTransform: 'capitalize'}}>
       <Box sx={{ position: 'relative', background: '#333d48' }}>
          
-        <Image alt="" src="" ratio="1/1" />
+        <img  alt="" src={data && data.car && data.car.image} width="200" height="200" />
       </Box>
 
       <Stack spacing={2} sx={{ p: 2, mt: 0 }}>

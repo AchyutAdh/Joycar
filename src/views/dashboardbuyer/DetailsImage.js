@@ -5,7 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 // ----------------------------------------------------------------------
 
 
-export default function DetailsImage({ bids}) {
+export default function DetailsImage({ bids , dataImg}) {
 
   const token = localStorage.getItem('access_token')
 
@@ -36,6 +36,7 @@ export default function DetailsImage({ bids}) {
   }
 
 
+  
 
   const handleSubmit = async (e) => {
 
@@ -92,8 +93,8 @@ useEffect(() => {
             <CardMedia
                 component="img"
                 height="194"
-                image="https://www.carsoup.com/blog/content/images/2018/10/BMW-1.jpg"
-                style={{cursor:'pointer'}}
+                image={dataImg && dataImg.car && dataImg.car.image}
+                component="img"
             />
             </>
      

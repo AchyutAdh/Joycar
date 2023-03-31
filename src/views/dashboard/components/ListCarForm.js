@@ -21,7 +21,7 @@ export default function ListCarForm() {
 
      //------------------content image-------------------------
      const [imgPreview, setImgPreview] = useState(null);
-     const [, setImgUrl] = useState(null);
+     const [imgUrl, setImgUrl] = useState(null);
      //---------------------------------------------------------
 
      //Converting data URL (base64)
@@ -60,7 +60,7 @@ export default function ListCarForm() {
           description: formData.description,
           status: 'inactive',
           user: data.id,
-          image: null,
+          image: imgUrl,
         };
 
 
@@ -77,11 +77,18 @@ export default function ListCarForm() {
                 body: JSON.stringify(carData),
               });
     
-              await response.json();
-        
-              navigate('/seller/carlist');
-              window.location.reload();
-              setLoading(false);
+
+              if (response.ok) {
+                // Handle successful response
+                navigate('/seller/carlist');
+                window.location.reload();
+                setLoading(false);
+              } else {
+                setFormData({name: '', model: '', year: '', price: '', description: ''})
+                setLoading(false);
+                setImgUrl(null)
+              }
+      
               // Handle successful user creation
             } catch (error) {
               console.error(error);
