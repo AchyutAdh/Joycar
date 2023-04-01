@@ -1,4 +1,5 @@
 import React from "react";
+import {Link as RouterLink} from 'react-router-dom';
 import "../../styles/instant-sell.css";
 import { Container, Row, Col } from "reactstrap";
 
@@ -18,9 +19,11 @@ const InstantSell = () => {
             Sell your car with confidence using AI-powered valuation
             </h2>
 
-            <button className="btn become__sell-btn mt-4">
-               Instant sell
-            </button>
+            <RouterLink to="/login/seller" style={{textDecoration: 'none'}}>
+                <button className="btn become__sell-btn mt-4" >
+                Instant sell
+                </button>
+            </RouterLink>
           </Col>
         </Row>
       </Container>
