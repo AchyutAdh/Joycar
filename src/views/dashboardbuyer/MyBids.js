@@ -97,7 +97,7 @@ const MyBids = () => {
         }
 
 
-        console.log(bidList)
+     
 
 
     return (

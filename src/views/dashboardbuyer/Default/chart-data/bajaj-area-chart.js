@@ -1,10 +1,11 @@
-// ===========================|| DASHBOARD - TOTAL ORDER YEAR CHART ||=========================== //
+// ===========================|| DASHBOARD - BAJAJ AREA CHART ||=========================== //
 
 const chartData = {
-    type: 'line',
-    height: 90,
+    type: 'area',
+    height: 95,
     options: {
         chart: {
+            id: 'support-chart',
             sparkline: {
                 enabled: true
             }
@@ -12,21 +13,11 @@ const chartData = {
         dataLabels: {
             enabled: false
         },
-        colors: ['#fff'],
-        fill: {
-            type: 'solid',
-            opacity: 1
-        },
         stroke: {
             curve: 'smooth',
-            width: 3
-        },
-        yaxis: {
-            min: 0,
-            max: 100
+            width: 1
         },
         tooltip: {
-            theme: 'dark',
             fixed: {
                 enabled: false
             },
@@ -34,7 +25,7 @@ const chartData = {
                 show: false
             },
             y: {
-                title: 'Total Listing'
+                title: 'Ticket '
             },
             marker: {
                 show: false
@@ -43,8 +34,7 @@ const chartData = {
     },
     series: [
         {
-            name: 'Listings',
-            data: [3, 5, 10, 1]
+            data: [0, 15, 10, 50, 30, 40, 25]
         }
     ]
 };

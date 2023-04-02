@@ -35,6 +35,13 @@ const dashboardbuyer = {
             url: '/buyer/appointments',
             breadcrumbs: false
         },
+        {
+            id: '5',
+            title: 'Payments',
+            type: 'item',
+            url: '/buyer/payments',
+            breadcrumbs: false
+        },
     ]
 };
 
