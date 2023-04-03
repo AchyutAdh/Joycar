@@ -192,13 +192,7 @@ const MyBids = () => {
             </TableContainer>
 
 
-            <Box sx={{ '& > :not(style)': { m: 1 } }}>
-              <Tooltip title="List car" placement="left">
-                <Fab component={RouterLink} to="/seller/carlist/create" color="primary" style={{ position: "fixed", bottom: 10, right: 25}}>
-                  <AddIcon/>
-                </Fab>
-              </Tooltip>
-          </Box>
+          
        
     </MainCard>
     );

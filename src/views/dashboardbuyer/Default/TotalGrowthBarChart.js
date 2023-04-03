@@ -84,16 +84,8 @@ const chartData = {
     },
     series: [
         {
-            name: 'Active',
-            data: [3, 0, 0, 0]
-        },
-        {
-            name: 'Inactive',
-            data: [0, , 0, 0, 0]
-        },
-        {
-            name: 'Completed',
-            data: [0, , 0, 0, 0]
+            name: 'Bid',
+            data: [1200000, 200000, 100000, 2000]
         },
     ]
 };
@@ -106,6 +98,7 @@ const TotalGrowthBarChart = ({ isLoading, data }) => {
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
 
+   
     const { navType } = customization;
     const { primary } = theme.palette.text;
     const darkLight = theme.palette.dark.light;
@@ -154,31 +147,21 @@ const TotalGrowthBarChart = ({ isLoading, data }) => {
         }
     }, [navType, primary200, primaryDark, secondaryMain, secondaryLight, primary, darkLight, grey200, isLoading, grey500]);
 
-    const statusCounts = data && data.reduce((counts, car) => {
-        counts[car.status] += 1;
-        return counts;
-    }, { active: 0, inactive: 0, completed: 0});
    
-    
-        const updatedSeries = [
-            {
-                name: 'Active',
-                data: [statusCounts && statusCounts.active, 0, 0, 0]
-            },
-            {
-                name: 'Inactive',
-                data: [0, statusCounts && statusCounts.inactive, 0, 0, 0]
-            },
-            {
-                name: 'Completed',
-                data: [0, 0, statusCounts && statusCounts.completed, 0]
-            },
-        ]
-   
+
+    const bidPrices = data && data.map((bid) => {
+        return parseFloat(bid.price);
+    });
+
 
     const updatedChartData = {
         ...chartData,
-        series: updatedSeries
+        series: [
+            {
+                name: 'Bid',
+                data: bidPrices
+            }
+        ]
     };
 
     return (
@@ -194,7 +177,7 @@ const TotalGrowthBarChart = ({ isLoading, data }) => {
                                     <Grid container direction="column" spacing={1}>
                                       
                                         <Grid item>
-                                            <Typography variant="h3">Car Status</Typography>
+                                            <Typography variant="h3"> My Bids History</Typography>
                                         </Grid>
                                     </Grid>
                                 </Grid>

@@ -24,7 +24,9 @@ const Dashboard = () => {
 
 
     const [data, setData] = useState(null);
+    const [dataActive, setDataActive] = useState(null);
     const [bidList, setBidList] = useState(null);
+    const [allList, setAllList] = useState(null);
 
 
     function filterUsersByID(CarList, ID) {
@@ -77,15 +79,29 @@ const Dashboard = () => {
       async function fetchBidList() {
         const response = await fetch('http://127.0.0.1:8000/bids/');
         const json = await response.json();
+        setAllList(json);
         const filteredCarList = filterUsersByID(json, data.id);
         const highestAuctions = getHighestAuctions(filteredCarList);
         setBidList(highestAuctions);
+      }
+
+
+
+      async function fetchDataActive() {
+        const response = await fetch('http://127.0.0.1:8000/auctions/active/', {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+        const json = await response.json();
+        setDataActive(json);
       }
 
      
     
       useEffect(() => {
         fetchData();
+        fetchDataActive();
         setLoading(false);
       }, []);
 
@@ -115,7 +131,7 @@ const Dashboard = () => {
                     <MyBids isLoading={isLoading} data={bidList && bidList.length} />
                 </Grid>
                 <Grid item lg={4} md={6} sm={6} xs={12}>
-                    <LiveAuctionList isLoading={isLoading} data={bidList && bidList.length}/>
+                    <LiveAuctionList isLoading={isLoading} data={dataActive && dataActive.length}/>
                 </Grid>
                 <Grid item lg={4} md={12} sm={12} xs={12}>
                     <Grid container spacing={gridSpacing}>
@@ -132,7 +148,7 @@ const Dashboard = () => {
         <Grid item xs={12}>
             <Grid container spacing={gridSpacing}>
                 <Grid item xs={12} >
-                    <TotalGrowthBarChart data={bidList && bidList} isLoading={isLoading} />
+                    <TotalGrowthBarChart data={allList && allList} isLoading={isLoading} />
                 </Grid>
             </Grid>
         </Grid>

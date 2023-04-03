@@ -6,6 +6,7 @@ import Loadable from 'ui-component/Loadable';
 import ListCar from 'views/dashboard/ListCar';
 import ListForm from 'views/dashboard/ListForm';
 import AccountSettings from 'views/AccountSettings';
+import EvaluateSeller from 'views/dashboard/EvaluateSeller';
 
 
 // dashboard routing
@@ -31,6 +32,10 @@ const MainRoutes = {
         {
             path: 'account',
             element: <AccountSettings />
+        },
+        {
+            path: 'evaluate',
+            element: <EvaluateSeller />
         }
     ]
 };
