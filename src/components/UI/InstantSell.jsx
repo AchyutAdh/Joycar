@@ -19,7 +19,7 @@ const InstantSell = () => {
             Sell your car with confidence using AI-powered valuation
             </h2>
 
-            <RouterLink to="/login/seller" style={{textDecoration: 'none'}}>
+            <RouterLink to="/seller/carlist/create" style={{textDecoration: 'none'}}>
                 <button className="btn become__sell-btn mt-4" >
                 Instant sell
                 </button>

@@ -13,7 +13,7 @@ const Evaluate = () => {
 
     return (
         <>
-        <CommonSection title="Evaluate" />
+        <CommonSection title="Evaluate your car price with AI" />
         <Container>
         <Row>
             <Col lg="6" md="6" sm="12">
