@@ -11,7 +11,7 @@ DetailsCard.propTypes = {
   profile: PropTypes.object,
 };
 
-export default function DetailsCard({ data, bids }) {
+export default function DetailsCard({ data }) {
  
   return (
     <Card sx={{ py: 1, px: 1, boxShadow: 3 }}>

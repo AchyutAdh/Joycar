@@ -1,5 +1,5 @@
-import { useState }  from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState }  from 'react';
+import { Link } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -19,7 +19,7 @@ import {
     useMediaQuery
 } from '@mui/material';
 
-
+import MuiAlert from '@mui/material/Alert';
 
 // project imports
 import AnimateButton from 'ui-component/extended/AnimateButton';
@@ -28,12 +28,42 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-// ===========================|| FIREBASE - REGISTER ||=========================== //
 
-const FirebaseRegister = ({ ...others }) => {
+
+//------------------Alert
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+// ===========================|| REGISTER ||=========================== //
+
+const AuthRegister = ({ ...others }) => {
     const theme = useTheme();
-    const navigate = useNavigate();
+   
 
+    //--------------------Alert State
+
+    const [open, setOpen] = useState(false);
+    const [open2, setOpen2] = useState(false);
+
+  
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
+
+    const handleClose2 = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpen2(false);
+      };
+  
     //form state----------------------------------------------------------------------
 
     const [formData, setFormData] = useState({username: '', email: '', password: ''});
@@ -82,17 +112,27 @@ const FirebaseRegister = ({ ...others }) => {
             body: JSON.stringify(registerData),
           });
 
+
+          if(response.ok) {
+             setOpen(false);
+             setOpen2(true);
+             setLoading(false);
+             setFormData({username: '', email: '', password: ''})
+          }
+          
           
       
           if (!response.ok) {
-            throw new Error('Failed to create user');
+            setOpen(true);
+            setOpen2(false);
+            setLoading(false);
           }
-
-          navigate('/login');
-          setLoading(false);
+          
           // Handle successful user creation
         } catch (error) {
           console.error(error);
+          setOpen(false);
+          setOpen2(false);
           setLoading(false);
           setFormData({username: '', email: '', password: ''})
           // Handle error
@@ -106,6 +146,9 @@ const FirebaseRegister = ({ ...others }) => {
           
             
                     <form noValidate onSubmit={handleSubmit} {...others}>
+                    { open && ( <Alert sx={{mb: 2, mt: 2,  width: '100%' }} onClose={handleClose} severity="error"  style={{ backgroundColor: '#f44336', color: '#fff' }} > Invalid email address. Please check again. </Alert> )}
+                    { open2 && ( <Alert sx={{mb: 2, mt: 2,  width: '100%' }} onClose={handleClose2} severity="success"  style={{ backgroundColor: '#4caf50', color: '#fff' }} > Registered successfully!! </Alert> )}
+             
                         <Grid container spacing={matchDownSM ? 0 : 2}>
                             <Grid item xs={12}>
                                 <TextField
@@ -213,4 +256,4 @@ const FirebaseRegister = ({ ...others }) => {
     );
 };
 
-export default FirebaseRegister;
+export default AuthRegister;

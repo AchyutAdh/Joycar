@@ -1,19 +1,19 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
-import { Box, Card, Typography, Stack, Button } from '@mui/material';
-
-// components
-import Image from '../../components/Image';
+import { Box, Card, Typography, Stack} from '@mui/material';
 
 
 
 // ----------------------------------------------------------------------
 
+LiveAuctionCard.propTypes = {
+  data: PropTypes.object.isRequired,
+};
 
 export default function LiveAuctionCard({ data }) {
 
-  console.log(data)
+ 
  
  
   return (

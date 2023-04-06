@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -7,18 +6,16 @@ import {
     Box,
     Button,
     Checkbox,
-    Divider,
     FormControl,
     FormControlLabel,
-    Grid,
     IconButton,
     InputAdornment,
     InputLabel,
     OutlinedInput,
     Stack,
     Typography,
-    useMediaQuery
 } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 
 
 // project imports
@@ -28,21 +25,33 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import Google from 'assets/images/icons/social-google.svg';
 
-// ============================|| FIREBASE - LOGIN ||============================ //
+
+//------------------Alert
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+// ============================|| LOGIN ||============================ //
 
 const AuthLogin = ({ ...others }) => {
     const theme = useTheme();
     const navigate = useNavigate();
 
-    const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-    const customization = useSelector((state) => state.customization);
+    const [open, setOpen] = useState(false);
+
+  
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
+
     const [checked, setChecked] = useState(false);
 
-    const googleHandler = async () => {
-        console.error('Login');
-    };
 
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => {
@@ -89,22 +98,25 @@ const AuthLogin = ({ ...others }) => {
           if(response.ok) {
             localStorage.setItem('access_token', token);
             localStorage.setItem('user', 'buyer')
+            navigate('/buyer/dashboard');
+            window.location.reload();
+            setLoading(false);
           }
           
       
           if (!response.ok) {
-            throw new Error('Failed to create user');
+            setOpen(true);
+            setFormData({username: '',  password: ''})
+            setLoading(false);
           }
 
           
-          navigate('/buyer/dashboard');
-          window.location.reload();
-          setLoading(false);
+          
           // Handle successful user creation
         } catch (error) {
           console.error(error);
           setLoading(false);
-          setFormData({username: '', email: '', password: ''})
+          setFormData({username: '',  password: ''})
           // Handle error
         }
       };
@@ -115,6 +127,10 @@ const AuthLogin = ({ ...others }) => {
 
           
                     <form noValidate onSubmit={handleSubmit} {...others}>
+                  
+                   { open && ( <Alert sx={{mb: 2, mt: 2,  width: '100%' }} onClose={handleClose} severity="error"  style={{ backgroundColor: '#f44336', color: '#fff' }} > Invalid username or password. Please try again. </Alert> )}
+             
+
                         <FormControl fullWidth  sx={{ ...theme.typography.customInput }}>
                             <InputLabel htmlFor="outlined-adornment-email-login">Username</InputLabel>
                             <OutlinedInput

@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -7,19 +6,17 @@ import {
     Box,
     Button,
     Checkbox,
-    Divider,
     FormControl,
     FormControlLabel,
-    Grid,
     IconButton,
     InputAdornment,
     InputLabel,
     OutlinedInput,
     Stack,
     Typography,
-    useMediaQuery
 } from '@mui/material';
 
+import MuiAlert from '@mui/material/Alert';
 
 // project imports
 import AnimateButton from 'ui-component/extended/AnimateButton';
@@ -30,7 +27,13 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 
 
-// ============================|| FIREBASE - LOGIN ||============================ //
+//------------------Alert
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+// ============================|| LOGIN ||============================ //
 
 const AuthLoginSeller = ({ ...others }) => {
     const theme = useTheme();
@@ -39,7 +42,16 @@ const AuthLoginSeller = ({ ...others }) => {
    
     const [checked, setChecked] = useState(false);
 
-   
+    const [open, setOpen] = useState(false);
+
+  
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
 
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => {
@@ -86,21 +98,24 @@ const AuthLoginSeller = ({ ...others }) => {
           if(response.ok) {
             localStorage.setItem('access_token', token);
             localStorage.setItem('user', 'seller')
+            navigate('/seller/dashboard');
+            window.location.reload();
+            setLoading(false);
           }
           
       
           if (!response.ok) {
-            throw new Error('Failed to create user');
+            setOpen(true);
+            setFormData({username: '',  password: ''})
+            setLoading(false);
           }
 
-          navigate('/seller/dashboard');
-          window.location.reload();
-          setLoading(false);
+         
           // Handle successful user creation
         } catch (error) {
           console.error(error);
           setLoading(false);
-          setFormData({username: '', email: '', password: ''})
+          setFormData({username: '',  password: ''})
           // Handle error
         }
       };
@@ -111,6 +126,10 @@ const AuthLoginSeller = ({ ...others }) => {
 
           
                     <form noValidate onSubmit={handleSubmit} {...others}>
+
+                    { open && ( <Alert sx={{mb: 2, mt: 2,  width: '100%' }} onClose={handleClose} severity="error"  style={{ backgroundColor: '#f44336', color: '#fff' }} > Invalid username or password. Please try again. </Alert> )}
+             
+
                         <FormControl fullWidth  sx={{ ...theme.typography.customInput }}>
                             <InputLabel htmlFor="outlined-adornment-email-login">Username</InputLabel>
                             <OutlinedInput

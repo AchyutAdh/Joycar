@@ -1,11 +1,18 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 // mui
-import { Card, Grid, TextField, Button, Stack, CardMedia, CardContent } from '@mui/material';
+import { Card, Grid, TextField, Button, Stack, CardMedia, CardContent, Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 
 
 
+//------------------Alert
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+//-----------------------------------
 
 export default function ListCarForm() {
 
@@ -13,6 +20,21 @@ export default function ListCarForm() {
     const token = localStorage.getItem('access_token')
 
     const navigate = useNavigate();
+
+
+    //--------------------Alert State
+   const [open, setOpen] = useState(false);
+   const [butt, setButt] = useState(false);
+
+
+   const handleClose = (event, reason) => {
+     if (reason === 'clickaway') {
+       return;
+     }
+ 
+     setOpen(false);
+   };
+
 
     const [, setLoading] = useState(false);
     const [data, setData] = useState(null);
@@ -80,13 +102,17 @@ export default function ListCarForm() {
 
               if (response.ok) {
                 // Handle successful response
-                navigate('/seller/carlist');
-                window.location.reload();
+                setButt(true);
+                setTimeout(() => {
+                  navigate('/seller/carlist');
+                }, 5000); // reload after 5 seconds
+                setOpen(true);
                 setLoading(false);
               } else {
                 setFormData({name: '', model: '', year: '', price: '', description: ''})
                 setLoading(false);
                 setImgUrl(null)
+                setButt(false);
               }
       
               // Handle successful user creation
@@ -95,6 +121,7 @@ export default function ListCarForm() {
               setLoading(false);
               setFormData({name: '', model: '', year: '', price: '', description: ''})
               setImgUrl(null)
+              setButt(false);
               // Handle error
             }
     }
@@ -122,7 +149,11 @@ export default function ListCarForm() {
   return (
     <>
 
-
+    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'right', }}>
+            <Alert onClose={handleClose} severity="success" style={{ backgroundColor: '#4caf50', color: '#fff' }}  sx={{ width: '100%' }}>
+               Listed successfully!
+            </Alert>
+          </Snackbar>
 
 
     <form onSubmit={handleSubmit}>
@@ -164,7 +195,7 @@ export default function ListCarForm() {
 
         <Grid item xs={12} md={4}>
         <Card sx={{ py: 1, px: 1, textAlign: 'center', boxShadow: 3 }}>
-            <input accept="image/png, image/jpeg" id="upload-content-avatar" hidden type="file" onChange={(e) => handleInputChangeImage(e)} />
+            <input accept="image/png, image/jpeg" id="upload-content-avatar" required hidden type="file" onChange={(e) => handleInputChangeImage(e)} />
             <label htmlFor="upload-content-avatar">
             {imgPreview !== null ?
             <>
@@ -190,9 +221,7 @@ export default function ListCarForm() {
 
           <Stack spacing={3} mt={2}>
 
-            <Button type="submit" variant="contained" size="large">
-                Create
-            </Button>
+            {butt === true ? <Button variant="contained" size="large" disabled fullWidth sx={{ '&.Mui-disabled': { color: 'black' } }}>Redirecting...</Button> : <Button type="submit" variant="contained" size="large">Create</Button> }
            </Stack>
 
         </Grid>
