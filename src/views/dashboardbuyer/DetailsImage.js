@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Button, TextField, Collapse, Card, CardContent, CardActions, CardMedia, Snackbar} from '@mui/material';
+import { Grid, Button, TextField, Collapse, Card, CardContent, CardActions, CardMedia, Snackbar, Stack, Typography} from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import { useParams } from 'react-router-dom';
 
@@ -110,7 +110,6 @@ export default function DetailsImage({ bids , dataImg}) {
 }
 
 
-
 useEffect(() => {
   fetchData();
 }, []);
@@ -145,11 +144,45 @@ useEffect(() => {
 
             <form onSubmit={handleSubmit}>
              
-          {expanded !== true ?
-              <CardActions disableSpacing>        
-                 <Button expand={expanded}onClick={handleExpandClick}aria-expanded={expanded} fullWidth variant="contained">Bid Now</Button>
-              </CardActions>
-            : null}
+            {expanded !== true ? (
+                <>
+                  <CardActions disableSpacing>
+                    {dataImg && dataImg.winner && dataImg.winner !== null ? (
+                      <Grid container justifyContent="center">
+                        <Grid item xs={12}>
+                          <Typography variant="body2" align="center" sx={{mb: 1, fontSize: '1rem'}}>
+                            <span style={{ fontWeight: 'bold' }}>Winner:</span>{' '}
+                            <span style={{ textTransform: 'capitalize' }}>
+                              {dataImg.winner}
+                            </span>
+                          </Typography>
+                        </Grid>
+                        {data && data.username === dataImg.winner ? (
+                          <Grid item xs={12}>
+                            <Button variant="contained" fullWidth>
+                              Book Appointment
+                            </Button>
+                          </Grid>
+                        ) : null}
+                      </Grid>
+                    ) : (
+                      <Grid container justifyContent="center">
+                        <Grid item xs={12}>
+                          <Button
+                            expand={expanded}
+                            onClick={handleExpandClick}
+                            aria-expanded={expanded}
+                            fullWidth
+                            variant="contained"
+                          >
+                            Bid Now
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    )}
+                  </CardActions>
+                </>
+              ) : null}
 
               <Collapse in={expanded} timeout="auto" unmountOnExit>
 
