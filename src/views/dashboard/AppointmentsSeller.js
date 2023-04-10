@@ -6,9 +6,9 @@ import { Card, Typography, Table,  TableBody, TableContainer, TableRow, TableCel
 
 import MainCard from 'ui-component/cards/MainCard';
 
-// ==============================|| DEFAULT Appointments ||============================== //
+// ==============================|| DEFAULT AppointmentsSeller ||============================== //
 
-const Appointments = () => {
+const AppointmentsSeller = () => {
    
 
     const token = localStorage.getItem('access_token')
@@ -38,21 +38,32 @@ const Appointments = () => {
       }
 
 
-      async function fetchAppointments() {
-        const response = await fetch(`http://127.0.0.1:8000/users/${data && data.id}/won_auctions/`);
+      async function fetchAuctions() {
+        const response = await fetch(`http://127.0.0.1:8000/users/${data && data.id}/auctions/`);
         const json = await response.json();
         setAppointmentList(json);
       }
 
+
       const combinedData = appointmentList && activeAppointments && appointmentList.map((appointment) => {
         const activeAppointment = activeAppointments.find((appt) => appt.auction === appointment.id);
         if (activeAppointment) {
-          return { ...appointment, appointmentStatus: activeAppointment.status };
+          return { ...appointment, appointmentStatus: activeAppointment.status, appointmentDate:  activeAppointment.date };
         } else {
-          return { ...appointment, appointmentStatus: null };
+          return { ...appointment, appointmentStatus: null, appointmentDate:  null };
         }
 
      })
+
+   
+     const filteredList = combinedData && combinedData.filter((appointment) => {
+      const isActive = appointment.appointmentStatus === 'active';
+      const hasSellerName = appointment.seller_name === data.username;
+      return isActive && hasSellerName;
+    });
+   
+    
+  
        
       
 
@@ -64,7 +75,7 @@ const Appointments = () => {
       }, []);
 
       if (appointmentList === null) {
-        fetchAppointments();
+        fetchAuctions();
       }
 
 
@@ -74,12 +85,13 @@ const Appointments = () => {
 
       const userType = localStorage.getItem('user');
      
-      if (userType !== 'buyer') {
-          return <Navigate to={`/seller/dashboard`} />;
+      if (userType !== 'seller') {
+          return <Navigate to={`/buyer/dashboard`} />;
         }
 
 
-        console.log(combinedData)
+        console.log(filteredList)
+
 
 
     return (
@@ -105,16 +117,13 @@ const Appointments = () => {
                     </TableCell>
 
                     <TableCell align="center">
-                       Seller
+                       Buyer
                     </TableCell>
 
                     <TableCell align="center">
-                      End Date
+                      Appointment Date
                     </TableCell>
 
-                    <TableCell align="center">
-                      Actions
-                    </TableCell>
                  
 
                 </TableRow>
@@ -123,9 +132,9 @@ const Appointments = () => {
 
                       <TableBody>
 
-                    {combinedData && combinedData !== null ? <>
+                    {filteredList && filteredList !== null ? <>
 
-                        {combinedData && combinedData.map((item, index) => (
+                        {filteredList && filteredList.map((item, index) => (
                         <TableRow hover align="center" key={item.id}>
 
                             <TableCell align="center">
@@ -148,20 +157,16 @@ const Appointments = () => {
 
                             <TableCell align="center">
                             <Typography>
-                                <span style={{textTransform: 'capitalize'}}>{item.seller_name}</span>
+                                <span style={{textTransform: 'capitalize'}}>{item.winner}</span>
                             </Typography>
                             </TableCell>
 
                             <TableCell align="center">
-                              {item.end_time.split('T')[0]}
+                              {item.appointmentDate}
                             </TableCell>
     
 
-                            <TableCell align="center">
-                            {item.appointmentStatus === 'active' ?<Button component={RouterLink} variant='outlined' style={{color: '#4caf50', borderColor: '#4caf50'}}  to={`/buyer/appointments/${item.id}`}>View</Button>
-                              : <Button component={RouterLink} variant='outlined' to={`/buyer/appointments/${item.id}`}>Book</Button> }
-                            </TableCell>
-
+                            
 
                         </TableRow>
                         ))}
@@ -181,4 +186,4 @@ const Appointments = () => {
     );
 };
 
-export default Appointments;
+export default AppointmentsSeller;

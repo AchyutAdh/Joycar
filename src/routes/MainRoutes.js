@@ -7,6 +7,7 @@ import ListCar from 'views/dashboard/ListCar';
 import ListForm from 'views/dashboard/ListForm';
 import AccountSettings from 'views/AccountSettings';
 import EvaluateSeller from 'views/dashboard/EvaluateSeller';
+import AppointmentsSeller from 'views/dashboard/AppointmentsSeller';
 
 
 // dashboard routing
@@ -36,7 +37,11 @@ const MainRoutes = {
         {
             path: 'evaluate',
             element: <EvaluateSeller />
-        }
+        },
+        {
+            path: 'appointments',
+            element: <AppointmentsSeller />
+        },
     ]
 };
 

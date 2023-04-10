@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Button, TextField, Collapse, Card, CardContent, CardActions, CardMedia, Snackbar, Stack, Typography} from '@mui/material';
+import { Grid, Button, TextField, Collapse, Card, CardContent, CardActions, CardMedia, Snackbar, Typography} from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
-import { useParams } from 'react-router-dom';
+import { useParams, Link as RouterLink } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -159,7 +159,7 @@ useEffect(() => {
                         </Grid>
                         {data && data.username === dataImg.winner ? (
                           <Grid item xs={12}>
-                            <Button variant="contained" fullWidth>
+                            <Button variant="contained" fullWidth component={RouterLink} to={`/buyer/appointments/${id}`}>
                               Book Appointment
                             </Button>
                           </Grid>

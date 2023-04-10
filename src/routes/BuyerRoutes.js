@@ -8,6 +8,7 @@ import LiveAuctionDetails from 'views/dashboardbuyer/LiveAuctionDetails';
 import MyBids from 'views/dashboardbuyer/MyBids';
 import AccountSettings from 'views/AccountSettings';
 import Appointments from 'views/dashboardbuyer/Appointments';
+import AppointmentsDetails from 'views/dashboardbuyer/AppointmentsDetails';
 
 
 // dashboard routing
@@ -37,6 +38,10 @@ const BuyerRoutes = {
         {
             path: 'appointments',
             element: <Appointments />
+        },
+        {
+            path: 'appointments/:id',
+            element: <AppointmentsDetails />
         },
         {
             path: 'account',
